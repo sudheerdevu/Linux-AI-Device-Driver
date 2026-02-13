@@ -1,0 +1,44 @@
+# Compiled Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linux kernel modules
+*.mod
+*.mod.c
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# Build directories
+build/
+dist/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Test outputs
+test_results/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
