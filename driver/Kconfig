@@ -1,0 +1,92 @@
+# SPDX-License-Identifier: GPL-2.0
+#
+# AI Accelerator Driver Configuration
+#
+
+menuconfig AI_ACCELERATOR
+	tristate "AI Accelerator Device Driver Support"
+	depends on PCI || PLATFORM_DRIVER_SUPPORT
+	select DMA_ENGINE
+	help
+	  This enables support for AI accelerator devices.
+	  These devices provide hardware acceleration for machine learning
+	  inference and training workloads.
+
+	  Say Y here if you have an AI accelerator device.
+	  Say M to build as a module (ai_accel).
+
+	  If unsure, say N.
+
+if AI_ACCELERATOR
+
+config AI_ACCEL_DMA
+	bool "Enable DMA support for AI Accelerator"
+	default y
+	select DMA_ENGINE
+	help
+	  Enable DMA (Direct Memory Access) support for efficient data
+	  transfer between host memory and accelerator memory.
+
+	  This is highly recommended for optimal performance.
+
+config AI_ACCEL_DEBUG
+	bool "Enable debugging support"
+	default n
+	help
+	  Enable verbose debugging output for the AI accelerator driver.
+	  This is useful for development and troubleshooting but adds
+	  overhead to normal operations.
+
+	  Say Y here if you are debugging driver issues.
+	  Say N for production use.
+
+config AI_ACCEL_MAX_DEVICES
+	int "Maximum number of accelerator devices"
+	range 1 16
+	default 4
+	help
+	  Maximum number of AI accelerator devices that can be supported
+	  simultaneously. Each device consumes some kernel resources.
+
+config AI_ACCEL_DEFAULT_QUEUE_DEPTH
+	int "Default job queue depth"
+	range 8 1024
+	default 64
+	help
+	  Default depth of the job submission queue per device.
+	  Larger values allow more jobs to be queued but consume more memory.
+
+config AI_ACCEL_PROFILING
+	bool "Enable hardware profiling support"
+	default y
+	help
+	  Enable support for hardware performance counters and profiling.
+	  This allows detailed performance analysis of inference workloads.
+
+config AI_ACCEL_POWER_MANAGEMENT
+	bool "Enable power management"
+	default y
+	depends on PM
+	help
+	  Enable power management features including suspend/resume
+	  and dynamic power scaling.
+
+config AI_ACCEL_MEMORY_LIMIT
+	int "Maximum device memory (MB) per allocation"
+	range 16 65536
+	default 1024
+	help
+	  Maximum size in megabytes for a single memory allocation.
+	  Larger values allow bigger models but may cause memory pressure.
+
+config AI_ACCEL_SRIOV
+	bool "Enable SR-IOV support"
+	default n
+	depends on PCI_IOV
+	help
+	  Enable Single Root I/O Virtualization (SR-IOV) support for
+	  sharing the accelerator between multiple virtual machines.
+
+	  This requires hardware support for SR-IOV.
+
+endif # AI_ACCELERATOR
